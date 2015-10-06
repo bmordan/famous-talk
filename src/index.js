@@ -1,10 +1,10 @@
 var famous = require('famous')
 var FamousEngine = famous.core.FamousEngine
 var DOMElement = famous.domRenderables.DOMElement
-
 var scene = FamousEngine.createScene()
-addTitle('Why Famous?')
 
+addTitle('Why Famous?')
+addPhotos()
 FamousEngine.init()
 
 function addTitle (title) {
@@ -34,4 +34,28 @@ function addTitle (title) {
   new DOMElement(logoNode, {
     tagName: 'img'
   }).setAttribute('src', './images/famous_logo.png')
+}
+function addPhotos () {
+  var photosNode = scene.addChild()
+    .setSizeMode(0, 0)
+    .setProportionalSize(0.5, 0.5)
+    .setAlign(0.5, 0.6)
+    .setOrigin(0.5, 0.5)
+    .setMountPoint(0.5, 0.5)
+  var steveNode = photosNode.addChild()
+    .setSizeMode(0, 0)
+    .setProportionalSize(0.5, 1)
+    .setAlign(1, 0)
+    .setOrigin(1, 0)
+    .setMountPoint(1, 0)
+  var markNode = photosNode.addChild()
+    .setSizeMode(0, 0)
+    .setProportionalSize(0.5, 1)
+    .setAlign(0, 0)
+    .setOrigin(0, 0)
+    .setMountPoint(0, 0)
+  new DOMElement(markNode, {tagName: 'img'})
+    .setAttribute('src', '/images/mark.jpg')
+  new DOMElement(steveNode, {tagName: 'img'})
+    .setAttribute('src', '/images/steve.jpg')
 }
