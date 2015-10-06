@@ -25,6 +25,10 @@ new DOMElement(ulNode, {
   }
 })
 
+
+
+
+
 someList.forEach(function (item, i) {
   var liNode = ulNode.addChild()
     .setSizeMode(0, 1, 0)
@@ -32,7 +36,7 @@ someList.forEach(function (item, i) {
     .setAbsoluteSize(0, 30)
     .setOrigin(0, 0)
     .setAlign(0, 0)
-  new DOMElement(liNode, {
+  var li = new DOMElement(liNode, {
     tagName: 'li',
     content: item,
     properties: {
@@ -40,14 +44,17 @@ someList.forEach(function (item, i) {
       'border-radius': '5px'
     }
   })
-  if (i === someList.length-1) positionListItems()
 })
+
+
+
+
 
 function positionListItems (curve) {
   curve = curve || 'inBack'
   var list = ulNode.getChildren()
   list.forEach(function (li, i) {
-    new famous.components.Position(li).setY(i*33, {
+    new famous.components.Position(li).setY(i*36, {
       duration: 2000,
       curve: curve
     })
@@ -84,7 +91,11 @@ function addTitle (title) {
     .setAlign(0.5, 0.2, 0)
     .setOrigin(0.5, 0.5, 0)
     .setMountPoint(0.5, 0.5, 0)
-  var logoNode = titleNode.addChild()
+  var linkNode = titleNode.addChild()
+  new DOMElement(linkNode, {
+    tagName: 'a'
+  }).setAttribute('href', 'http://famous.org/learn/easing-curves.html')
+  var logoNode = linkNode.addChild()
     .setSizeMode(1, 1, 2)
     .setAbsoluteSize(50, 50, 0)
     .setOrigin(0.5, 0.5, 0.5)
