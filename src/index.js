@@ -9,18 +9,19 @@ var someList = ['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven']
 FamousEngine.init()
 
 var ulNode = scene.addChild()
-  .setSizeMode(0, 1, 0)
+  .setSizeMode(0, 1, 1)
   .setProportionalSize(0.5, 0, 0)
   .setAbsoluteSize(0, 120, 0)
-  .setAlign(0.5, 0.5, 0)
+  .setAlign(0.5, 0.6, 0)
   .setOrigin(0.5, 0, 0)
   .setMountPoint(0.5, 1, 0)
-new DOMElement(ulNode, {
-  tagName: 'ul',
-  properties: {
-    'background-color': 'hotpink'
-  }
-})
+new DOMElement(ulNode, {tagName: 'ul'})
+
+
+
+
+
+
 
 
 
@@ -35,8 +36,9 @@ new DOMElement(ulNode, {
 
 
 // Bernard's Helpers
-addTitle('Layout')
+addTitle('Positioning')
 addControls()
+addLabels()
 function addTitle (title) {
   var titleNode = scene.addChild()
     .setSizeMode(0, 1, 0)
@@ -88,11 +90,104 @@ function addEvents (node) {
   node.onReceive = function (event, payload) {
     if (event === 'blur') {
       var values = payload.value.split(',').map(function (v) {
-        if (v == '.5') return 0.5
+        var decimal = v.split('.')[1]
+        if (decimal) return parseInt(decimal)/10
         return parseInt(v)
       })
       console.log(values)
       ulNode.setAlign(values[0], values[1], 0)
     }
   }
+}
+function addLabels () {
+  var topLeft = ulNode.addChild()
+    .setSizeMode(1, 1)
+    .setOrigin(0.5, 0.5)
+    .setMountPoint(0.5, 0.5)
+    .setAlign(0, 0, 1)
+    .setAbsoluteSize(100, 27)
+  new DOMElement(topLeft, {
+    tagName: 'li',
+    content: '[0, 0]'
+  })
+  var topCenter = ulNode.addChild()
+    .setSizeMode(1, 1)
+    .setOrigin(0.5, 0.5)
+    .setMountPoint(0.5, 0.5)
+    .setAlign(0.5, 0, 1)
+    .setAbsoluteSize(100, 27)
+  new DOMElement(topCenter, {
+    tagName: 'li',
+    content: '[0.5, 0]'
+  })
+  var topRight = ulNode.addChild()
+    .setSizeMode(1, 1)
+    .setOrigin(0.5, 0.5)
+    .setMountPoint(0.5, 0.5)
+    .setAlign(1, 0, 1)
+    .setAbsoluteSize(100, 27)
+  new DOMElement(topRight, {
+    tagName: 'li',
+    content: '[1, 0]'
+  })
+  var midLeft = ulNode.addChild()
+    .setSizeMode(1, 1)
+    .setOrigin(0.5, 0.5)
+    .setMountPoint(0.5, 0.5)
+    .setAlign(0, 0.5, 1)
+    .setAbsoluteSize(100, 27)
+  new DOMElement(midLeft, {
+    tagName: 'li',
+    content: '[0, 0.5]'
+  })
+  var midCenter = ulNode.addChild()
+    .setSizeMode(1, 1)
+    .setOrigin(0.5, 0.5)
+    .setMountPoint(0.5, 0.5)
+    .setAlign(0.5, 0.5, 1)
+    .setAbsoluteSize(100, 27)
+  new DOMElement(midCenter, {
+    tagName: 'li',
+    content: '[0.5, 0.5]'
+  })
+  var midRight = ulNode.addChild()
+    .setSizeMode(1, 1)
+    .setOrigin(0.5, 0.5)
+    .setMountPoint(0.5, 0.5)
+    .setAlign(1, 0.5, 1)
+    .setAbsoluteSize(100, 27)
+  new DOMElement(midRight, {
+    tagName: 'li',
+    content: '[1, 0.5]'
+  })
+  var baseLeft = ulNode.addChild()
+    .setSizeMode(1, 1)
+    .setOrigin(0.5, 0.5)
+    .setMountPoint(0.5, 0.5)
+    .setAlign(0, 1, 1)
+    .setAbsoluteSize(100, 27)
+  new DOMElement(baseLeft, {
+    tagName: 'li',
+    content: '[0, 1]'
+  })
+  var baseCenter = ulNode.addChild()
+    .setSizeMode(1, 1)
+    .setOrigin(0.5, 0.5)
+    .setMountPoint(0.5, 0.5)
+    .setAlign(0.5, 1, 1)
+    .setAbsoluteSize(100, 27)
+  new DOMElement(baseCenter, {
+    tagName: 'li',
+    content: '[0.5, 1]'
+  })
+  var baseRight = ulNode.addChild()
+    .setSizeMode(1, 1)
+    .setOrigin(0.5, 0.5)
+    .setMountPoint(0.5, 0.5)
+    .setAlign(1, 1, 1)
+    .setAbsoluteSize(100, 27)
+  new DOMElement(baseRight, {
+    tagName: 'li',
+    content: '[1, 1]'
+  })
 }
