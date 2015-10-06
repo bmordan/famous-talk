@@ -88,7 +88,8 @@ function addEvents (node) {
   node.onReceive = function (event, payload) {
     if (event === 'blur') {
       var values = payload.value.split(',').map(function (v) {
-        if (v == '.5') return 0.5
+        var decimal = v.split('.')[1]
+        if (decimal) return parseInt(decimal)/10
         return parseInt(v)
       })
       console.log(values)
