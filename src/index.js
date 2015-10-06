@@ -1,6 +1,7 @@
 var famous = require('famous')
 var FamousEngine = famous.core.FamousEngine
 var DOMElement = famous.domRenderables.DOMElement
+var Transitionable = famous.transitions.Transitionable
 
 var scene = FamousEngine.createScene()
 
@@ -8,14 +9,50 @@ var someList = ['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven']
 
 FamousEngine.init()
 
+var listItemY = new Transitionable(0)
+
 var ulNode = scene.addChild()
   .setSizeMode(0, 1, 1)
   .setProportionalSize(0.5, 0, 0)
   .setAbsoluteSize(0, 120, 0)
-  .setAlign(0.5, 0.6, 0)
+  .setAlign(0.5, 0.51, 0)
   .setOrigin(0.5, 0, 0)
   .setMountPoint(0.5, 1, 0)
-new DOMElement(ulNode, {tagName: 'ul'})
+new DOMElement(ulNode, {
+  tagName: 'ul',
+  properties: {
+    'background-color': 'transparent'
+  }
+})
+
+someList.forEach(function (item, i) {
+  var liNode = ulNode.addChild()
+    .setSizeMode(0, 1, 0)
+    .setProportionalSize(1, 0, 0)
+    .setAbsoluteSize(0, 30)
+    .setOrigin(0, 0)
+    .setAlign(0, 0)
+  new DOMElement(liNode, {
+    tagName: 'li',
+    content: item,
+    properties: {
+      'line-height': '30px',
+      'border-radius': '5px'
+    }
+  })
+  if (i === someList.length-1) positionListItems()
+})
+
+function positionListItems (curve) {
+  curve = curve || 'inBack'
+  var list = ulNode.getChildren()
+  list.forEach(function (li, i) {
+    new famous.components.Position(li).setY(i*33, {
+      duration: 2000,
+      curve: curve
+    })
+  })
+}
 
 
 
@@ -36,9 +73,9 @@ new DOMElement(ulNode, {tagName: 'ul'})
 
 
 // Bernard's Helpers
-addTitle('Positioning')
+addTitle('Adding Elements')
 addControls()
-addLabels()
+
 function addTitle (title) {
   var titleNode = scene.addChild()
     .setSizeMode(0, 1, 0)
@@ -80,12 +117,23 @@ function addControls () {
     .setOrigin(0, 0.5, 0)
     .setMountPoint(0, 0.5, 0)
     .setPosition(20, 0, 0)
-  new DOMElement(inputNode, {
-    tagName: 'input'
-  }).setAttribute('name', 'value').setAttribute('placeholder', 'AlignX')
-  addEvents(inputNode)
+  new DOMElement(inputNode, {tagName: 'input'})
+    .setAttribute('name', 'value')
+    .setAttribute('placeholder', 'x, y')
+  var animationNode = controlNode.addChild()
+    .setSizeMode(1, 1, 0)
+    .setAbsoluteSize(90, 30, 0)
+    .setAlign(0, 0.5, 0)
+    .setOrigin(0, 0.5, 0)
+    .setMountPoint(0, 0.5, 0)
+    .setPosition(90, 0, 0)
+  new DOMElement(animationNode, {tagName: 'input'})
+    .setAttribute('name', 'ease')
+    .setAttribute('placeholder', 'curve') 
+  addAlignEvents(inputNode)
+  addAnimationEvents(animationNode)
 }
-function addEvents (node) {
+function addAlignEvents (node) {
   node.addUIEvent('blur')
   node.onReceive = function (event, payload) {
     if (event === 'blur') {
@@ -98,6 +146,21 @@ function addEvents (node) {
       ulNode.setAlign(values[0], values[1], 0)
     }
   }
+}
+function addAnimationEvents (node) {
+  node.addUIEvent('blur')
+  node.onReceive = function (event, payload) {
+    if (event === 'blur') {
+      var curve = payload.value || 'inBack'
+      resetList()
+      positionListItems(curve)
+    }
+  }
+}
+function resetList () {
+  return ulNode.getChildren().map(function (li) {
+    li.setPosition(0, 0, 0)
+  })
 }
 function addLabels () {
   var topLeft = ulNode.addChild()
