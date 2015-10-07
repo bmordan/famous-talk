@@ -5,8 +5,6 @@ var Transitionable = famous.transitions.Transitionable
 
 var scene = FamousEngine.createScene()
 
-var someList = ['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven']
-
 FamousEngine.init()
 
 var listItemY = new Transitionable(0)
@@ -28,6 +26,8 @@ new DOMElement(ulNode, {
 
 
 
+
+var someList = ['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven']
 
 someList.forEach(function (item, i) {
   var liNode = ulNode.addChild()
