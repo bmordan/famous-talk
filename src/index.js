@@ -36,12 +36,32 @@ function addTitle (title) {
   }).setAttribute('src', './images/famous_logo.png')
 }
 function addPhotos () {
+  var opacity = new famous.transitions.Transitionable(0)
+    .set(1, {duration: 120000, curve: 'inQuart'})
+
   var photosNode = scene.addChild()
     .setSizeMode(0, 0)
     .setProportionalSize(0.5, 0.5)
     .setAlign(0.5, 0.6)
     .setOrigin(0.5, 0.5)
     .setMountPoint(0.5, 0.5)
+  var photos = new DOMElement(photosNode, {
+    tagName: 'article',
+    properties: {
+      'opacity': '0',
+      'border-radius': '5px',
+      'border': 'solid 2px #E7E7E6'
+    }
+  })
+
+  var update = photosNode.addComponent({
+    onUpdate: function (time) {
+      var op = opacity.get().toFixed(5)
+      photos.setProperty('opacity', op)
+      photosNode.requestUpdateOnNextTick(update)
+    }
+  })
+  photosNode.requestUpdate(update)
   var steveNode = photosNode.addChild()
     .setSizeMode(0, 0)
     .setProportionalSize(0.5, 1)
