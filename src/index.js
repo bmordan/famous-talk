@@ -2,6 +2,7 @@ var famous = require('famous')
 var FamousEngine = famous.core.FamousEngine
 var DOMElement = famous.domRenderables.DOMElement
 var Transitionable = famous.transitions.Transitionable
+var Position = famous.components.Position
 var Particle = famous.physics.Particle
 var Vec3 = famous.math.Vec3
 var PhysicsEngine = famous.physics.PhysicsEngine
@@ -228,9 +229,30 @@ function addControls () {
     id: 'mouseOn',
     tagName: 'input'
   }).setAttribute('type', 'checkbox').setAttribute('value', 'mouse')
+  var scaleNode = controlNode.addChild()
+    .setSizeMode(0, 0)
+    .setProportionalSize(0.5, 0.5)
+    .setAlign(1, 1)
+    .setOrigin(1, 1)
+    .setMountPoint(1, 1)
+  new DOMElement(scaleNode, {
+    properties: {'border-top': 'solid 2px #E7E7E6'}
+  })
+  var slideNode = scaleNode.addChild()
+    .setSizeMode(1, 1)
+    .setAbsoluteSize(15, 40)
+    .setOrigin(0.5, 0.5)
+    .setAlign(0.5, 0)
+    .setMountPoint(0.5, 0.5)
+  new DOMElement(slideNode, {
+    id: 'slide',
+    properties: {'background-color': '#4FB8E9'}
+  })
+
   addMouseEvents(mouseNode)
   addAlignEvents(inputNode)
   addAnimationEvents(animationNode)
+  addSlideEvents(slideNode, scaleNode)
 }
 function addAlignEvents (node) {
   node.addUIEvent('blur')
@@ -275,95 +297,16 @@ function resetList () {
     li.setPosition(0, 0, 0)
   })
 }
-function addLabels () {
-  var topLeft = ulNode.addChild()
-    .setSizeMode(1, 1)
-    .setOrigin(0.5, 0.5)
-    .setMountPoint(0.5, 0.5)
-    .setAlign(0, 0, 1)
-    .setAbsoluteSize(100, 27)
-  new DOMElement(topLeft, {
-    tagName: 'li',
-    content: '[0, 0]'
-  })
-  var topCenter = ulNode.addChild()
-    .setSizeMode(1, 1)
-    .setOrigin(0.5, 0.5)
-    .setMountPoint(0.5, 0.5)
-    .setAlign(0.5, 0, 1)
-    .setAbsoluteSize(100, 27)
-  new DOMElement(topCenter, {
-    tagName: 'li',
-    content: '[0.5, 0]'
-  })
-  var topRight = ulNode.addChild()
-    .setSizeMode(1, 1)
-    .setOrigin(0.5, 0.5)
-    .setMountPoint(0.5, 0.5)
-    .setAlign(1, 0, 1)
-    .setAbsoluteSize(100, 27)
-  new DOMElement(topRight, {
-    tagName: 'li',
-    content: '[1, 0]'
-  })
-  var midLeft = ulNode.addChild()
-    .setSizeMode(1, 1)
-    .setOrigin(0.5, 0.5)
-    .setMountPoint(0.5, 0.5)
-    .setAlign(0, 0.5, 1)
-    .setAbsoluteSize(100, 27)
-  new DOMElement(midLeft, {
-    tagName: 'li',
-    content: '[0, 0.5]'
-  })
-  var midCenter = ulNode.addChild()
-    .setSizeMode(1, 1)
-    .setOrigin(0.5, 0.5)
-    .setMountPoint(0.5, 0.5)
-    .setAlign(0.5, 0.5, 1)
-    .setAbsoluteSize(100, 27)
-  new DOMElement(midCenter, {
-    tagName: 'li',
-    content: '[0.5, 0.5]'
-  })
-  var midRight = ulNode.addChild()
-    .setSizeMode(1, 1)
-    .setOrigin(0.5, 0.5)
-    .setMountPoint(0.5, 0.5)
-    .setAlign(1, 0.5, 1)
-    .setAbsoluteSize(100, 27)
-  new DOMElement(midRight, {
-    tagName: 'li',
-    content: '[1, 0.5]'
-  })
-  var baseLeft = ulNode.addChild()
-    .setSizeMode(1, 1)
-    .setOrigin(0.5, 0.5)
-    .setMountPoint(0.5, 0.5)
-    .setAlign(0, 1, 1)
-    .setAbsoluteSize(100, 27)
-  new DOMElement(baseLeft, {
-    tagName: 'li',
-    content: '[0, 1]'
-  })
-  var baseCenter = ulNode.addChild()
-    .setSizeMode(1, 1)
-    .setOrigin(0.5, 0.5)
-    .setMountPoint(0.5, 0.5)
-    .setAlign(0.5, 1, 1)
-    .setAbsoluteSize(100, 27)
-  new DOMElement(baseCenter, {
-    tagName: 'li',
-    content: '[0.5, 1]'
-  })
-  var baseRight = ulNode.addChild()
-    .setSizeMode(1, 1)
-    .setOrigin(0.5, 0.5)
-    .setMountPoint(0.5, 0.5)
-    .setAlign(1, 1, 1)
-    .setAbsoluteSize(100, 27)
-  new DOMElement(baseRight, {
-    tagName: 'li',
-    content: '[1, 1]'
-  })
+function addSlideEvents (slideNode, scaleNode) {
+  var bounds = window.innerWidth/4
+  document.onkeypress = function (e) {
+    var position = new Position(slideNode)
+    var x = position.getX()
+    if (e.keyIdentifier === 'U+002C' && x > (0-bounds)) {
+      position.setX(x - 3)
+    }
+    if (e.keyIdentifier === 'U+002E' && x < bounds) {
+      position.setX(x + 3)
+    }
+  }
 }
