@@ -82,7 +82,7 @@ function addControls () {
     .setPosition(20, 0, 0)
   new DOMElement(inputNode, {
     tagName: 'input'
-  }).setAttribute('name', 'value').setAttribute('placeholder', 'AlignX')
+  }).setAttribute('name', 'value').setAttribute('placeholder', 'x,y')
   addEvents(inputNode)
 }
 function addEvents (node) {
