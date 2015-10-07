@@ -7,8 +7,6 @@ var Vec3 = famous.math.Vec3
 var PhysicsEngine = famous.physics.PhysicsEngine
 var Spring = famous.physics.Spring
 
-var someList = ['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven']
-
 FamousEngine.init()
 var physicsEngine = new PhysicsEngine()
 var scene = FamousEngine.createScene()
@@ -42,6 +40,7 @@ var force = addGravity(physicsEngine)
 
 
 
+var someList = ['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven']
 
 someList.forEach(function (item, i) {
   var x = (window.innerWidth/100)*50
