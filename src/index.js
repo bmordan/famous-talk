@@ -4,8 +4,6 @@ var DOMElement = famous.domRenderables.DOMElement
 
 var scene = FamousEngine.createScene()
 
-var someList = ['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven']
-
 FamousEngine.init()
 
 var ulNode = scene.addChild()
@@ -15,6 +13,7 @@ var ulNode = scene.addChild()
   .setAlign(0.5, 0.5, 0)
   .setOrigin(0.5, 0, 0)
   .setMountPoint(0.5, 1, 0)
+
 new DOMElement(ulNode, {
   tagName: 'ul',
   properties: {
