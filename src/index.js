@@ -252,7 +252,7 @@ function addControls () {
   addMouseEvents(mouseNode)
   addAlignEvents(inputNode)
   addAnimationEvents(animationNode)
-  addSlideEvents(slideNode, scaleNode)
+  addSlideEvents(slideNode)
 }
 function addAlignEvents (node) {
   node.addUIEvent('blur')
@@ -297,10 +297,10 @@ function resetList () {
     li.setPosition(0, 0, 0)
   })
 }
-function addSlideEvents (slideNode, scaleNode) {
+function addSlideEvents (node) {
   var bounds = window.innerWidth/4
   document.onkeypress = function (e) {
-    var position = new Position(slideNode)
+    var position = new Position(node)
     var x = position.getX()
     if (e.keyIdentifier === 'U+002C' && x > (0-bounds)) {
       position.setX(x - 3)
@@ -308,5 +308,11 @@ function addSlideEvents (slideNode, scaleNode) {
     if (e.keyIdentifier === 'U+002E' && x < bounds) {
       position.setX(x + 3)
     }
+    adjustForce(position.getX(), bounds)
   }
+}
+function adjustForce (value, bounds) {
+  var percent = Math.ceil((value/bounds)*100)
+  var strength = Math.pow(percent, 3)
+  force.strength = strength
 }
