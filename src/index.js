@@ -3,7 +3,7 @@ var FamousEngine = famous.core.FamousEngine
 var DOMElement = famous.domRenderables.DOMElement
 var scene = FamousEngine.createScene()
 
-addTitle('Why Famous?')
+addTitle('What is Famous?')
 addPhotos()
 FamousEngine.init()
 
